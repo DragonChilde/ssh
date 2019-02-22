@@ -20,12 +20,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.spring.aop.LogInterceptor;
 import com.spring.dao.UserDAO;
 import com.spring.dao.impl.UserDAOImpl;
@@ -124,6 +128,30 @@ public class UserServiceTest {
 	}
 	
 	@Test
+	public void testGson()
+	{
+		Gson gson = new GsonBuilder().create();
+		
+		Map<String,String> jsonMap = new HashMap<>(); 
+		
+		jsonMap.put("name", "test1");
+		jsonMap.put("order_id", "123");
+		System.out.println(gson.toJson(jsonMap));
+		
+		
+		String jsonStr = "{\"name\":\"栗霖\",\"id\":\"18\"}";
+		User u = gson.fromJson(jsonStr, User.class);
+		System.out.println("id:"+u.getId());
+		System.out.println("name:"+u.getName());
+
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("name", "test");
+		jsonObject.addProperty("id", "2");
+		System.out.println(jsonObject);
+		System.out.println(jsonObject.get("name"));
+	}
+	
+	@Test
 	public void testMD5()
 	{
 		String md5 = null;
@@ -143,5 +171,13 @@ public class UserServiceTest {
 		  System.out.println(md5);
 	}
 	
+	@Test
+	public void testStringUtils()
+	{
+		String a = StringUtils.trimToEmpty(" a ");
+		String b = StringUtils.trimToEmpty(" b ");
+		System.out.println(a+b);
+
+	}
 	
 }
